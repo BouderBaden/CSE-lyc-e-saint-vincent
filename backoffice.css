@@ -1,0 +1,84 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100vh;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #F5F5F5;
+    overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#accueil{
+    background-color: #B6A886;
+}
+
+.modif-accueil{
+    margin: 50px 50px 0px 50px;
+    display: grid;
+    justify-content: center;
+}
+
+.modif-accueil h1{
+    font-size: 36px;
+    color: #1B3168;
+}
+
+form{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    margin: 10px 0 0 0;
+    font-size: 20px;
+}
+
+input{
+    font-size: 16px;
+    border: 2px solid #1B3168;
+    height: 35px;
+    margin: 10px 0 20px 0;
+    padding: 0 10px 0 10px;
+    border-radius: 5px;
+    outline-color: #B6A886;
+}
+
+textarea{
+    height: 30px;
+    margin: 10px 0 20px 0;
+}
+
+button{
+    background-color: #fff;
+    color: #1B3168;
+    height: 45px;
+    width: 130px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 2px solid #1B3168;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    transition: color ease-in-out 0.5s, background-color ease-in-out 0.5s;
+}
+
+button:hover{
+    background-color: #1B3168;
+    color: #fff;
+    border: 2px solid #B6A886;
+}
+
+
+
+.placement{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
