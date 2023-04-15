@@ -104,7 +104,7 @@ main{
     justify-content: center;
 }
 
-.footer-modal a{
+.lien-offre{
     display: flex;
     text-decoration: none;
     color: white;
@@ -115,6 +115,11 @@ main{
     align-items: center;
     border-radius: 5px;
     font-size: 18px;
+    transition: background-color ease-in-out 0.2s;
+}
+
+.lien-offre:hover{
+    background-color: #B6A886;
 }
 
 .photo-partenaire{

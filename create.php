@@ -1,30 +1,32 @@
 <?php
-//pdo connection
-require_once "db.php";
+	include 'db.php';
+	$action = $_GET["action"];
+	if ($action == "DELETE") {
+		$id = $_GET["Id_Partenaire"];
+	} else {
+		$id = $_GET["Id_Partenaire"];
+		$nom = $_GET["Nom_Partenaire"];
+		$description = $_GET["Description_Partenaire"];
+		$lien = $_GET["Lien_Partenaire"];
+		$image = $_GET["Id_Image"];
+		
+	}
+	
 
-if (isset($_POST['submit'])) {
-    $nom = $_POST['nom'];
-    $description = $_POST['description'];
-    $lien = $_POST['lien'];
-    if (empty($nom) || empty($description) || empty($lien)) {
-        ?>
-        <script>
-            alert("Veuillez remplir tous les champs")
-        </script>
-        <?php
-    } else {
-
-
-        $sql = "INSERT INTO `partenaire` (`Nom_Partenaire`, `Description_Partenaire`, `Lien_Partenaire`) VALUES (:nom, :description, :lien)";
-        $sql = $pdo->prepare($sql);
-        $sql->bindParam(':nom', $nom);
-        $sql->bindParam(':description', $description);
-        $sql->bindParam(':lien', $lien);
-        $sql->bindParam(':image', $img);
-        $sql->execute();
+    if ($action == "CREATE") {
+        createPartenaire($nom, $description, $lien, $image);
+        header('Location: partenaire-back.php?iscreatevalid=oui');
     }
-}
+	
+    if ($action == "UPDATE") {
+        updatePartenaire($id, $nom, $description, $lien, $image);
+        header('Location: partenaire-back.php?ismodifvalid=oui');
+    }
 
+	if ($action == "DELETE") {
+		deletePartenaire($id);
+        header('Location: partenaire-back.php?isdeletevalid=oui');
+	}   
 ?>
 
 <!DOCTYPE html>

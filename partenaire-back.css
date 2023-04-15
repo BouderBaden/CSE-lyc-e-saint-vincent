@@ -17,3 +17,51 @@ body{
 #partenariat{
     background-color: #B6A886;
 }
+
+.contenant-tableau{
+    margin-top: 70px;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contenant-tableau h1{
+    display: flex;
+    justify-content: center;
+    color: #1B3168;
+    font-size: 36px;
+}
+
+table{
+    border-collapse: collapse;
+    margin-top: 50px;
+    width: 95%;
+}
+
+thead{
+    width: 100%;
+    height: 56px;
+    background-color: #1B3168;
+}
+
+th{
+    font-size: 20px;
+    color: #fff;
+}
+
+tbody{
+    background-color: #EFEDED;
+}
+
+.centrer{
+    display: flex;
+    justify-content: center;
+}
+
+tbody td, tbody th {
+    font-size: 18px;
+    line-height: 2.5em; /* ajustez la valeur en fonction de vos besoins */
+  }
+  

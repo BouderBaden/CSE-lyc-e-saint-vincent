@@ -11,7 +11,9 @@
         <link href="footer.css" rel="stylesheet">
     </head>
     <body>
-        <?php include ('header.php'); ?>
+        <?php include ('header.php');
+              include ('db.php');        
+        ?>
         <main>
             <div class="all">
                 <?php include ('banderole.php'); ?>

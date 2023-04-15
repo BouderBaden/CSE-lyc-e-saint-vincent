@@ -14,25 +14,23 @@ body{
     font-family: 'Montserrat', sans-serif;
 }
 
-main{
-    min-height: 55vh;
+#accueil{
+    background-color: #B6A886;
 }
 
-.connexion{
+.modif-accueil{
     margin: 50px 50px 0px 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    justify-content: center;
 }
 
-.connexion h1{
+.modif-accueil h1{
     font-size: 36px;
     color: #1B3168;
 }
 
 form{
     margin-top: 50px;
-    width: 40%;
     display: flex;
     flex-direction: column;
 }
@@ -57,16 +55,16 @@ textarea{
     margin: 10px 0 20px 0;
 }
 
-
 button{
     background-color: #fff;
     color: #1B3168;
     height: 45px;
-    width: 145px;
+    width: 130px;
     cursor: pointer;
     border-radius: 5px;
     border: 2px solid #1B3168;
     font-size: 16px;
+    letter-spacing: 1px;
     font-weight: bold;
     transition: color ease-in-out 0.5s, background-color ease-in-out 0.5s;
 }
@@ -76,6 +74,8 @@ button:hover{
     color: #fff;
     border: 2px solid #B6A886;
 }
+
+
 
 .placement{
     display: flex;
