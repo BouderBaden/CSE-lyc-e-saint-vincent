@@ -1,0 +1,138 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #F5F5F5;
+    overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#partenariat{
+    background-color: #B6A886;
+}
+
+main{
+    min-height: 60vh;
+}
+
+.contenant-tout{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenant-tout h1 a{
+    color: #1B3168;
+    text-decoration: none;
+    font-size: 36px;
+}
+
+.modif{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+label{
+    font-weight: 600;
+    font-size: 20px;
+    color: #1B3168;
+}
+
+input{
+    font-size: 16px;
+    border: solid 2px #1B3168;
+    box-sizing: border-box;
+    margin: 15px 0;
+    padding: 9px 10px;
+    border-radius: 5px;
+    outline-color: #B6A886;
+}
+
+.image{
+    border: none;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin: 15px 0;
+    padding: 9px 10px;
+    border-radius: 5px;
+    outline-color: #B6A886;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.button-update{
+    margin: 20px auto;
+    border: 2px solid #1B3168;
+    height: 45px;
+    width: 35%;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #1B3168;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color ease-in-out 0.5s, background-color ease-in-out 0.5s;
+}
+
+.button-update:hover{
+    background-color: #ffffff;
+    color: #1B3168;
+}
+
+.button-delete{
+    margin: 20px auto;
+    border: 2px solid #dc3545;
+    height: 45px;
+    width: 35%;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #dc3545;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color ease-in-out 0.5s, background-color ease-in-out 0.5s;
+}
+
+.button-delete:hover{
+    color: #dc3545;
+    background-color: #ffffff;
+}
+
+@media screen and (max-width: 1024px) {
+    .modif{
+        width: 60%;
+    }
+    .button-update{
+        width: 40%;
+    }
+    .button-delete{
+        width: 40%;
+    }
+}
+
+
+@media screen and (max-width: 550px) {
+    .modif{
+        width: 90%;
+    }
+    .button-update{
+        width: 70%;
+    }
+    .button-delete{
+        width: 70%;
+    }
+}
