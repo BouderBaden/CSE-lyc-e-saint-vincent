@@ -1,44 +1,140 @@
-<?php 
+<?php
 $page = 'part-back';
+require 'db.php';
+
+
+if (isset($_GET['id']) || isset($_POST['id'])) {
+	$id = $_GET['id'] ?? $_POST['id'];
+
+	$query = "SELECT * FROM partenaire WHERE Id_Partenaire = :id LIMIT 1";
+
+	$stmt = $pdo->prepare($query);
+	$stmt->bindParam("id", $id);
+	$stmt->execute();
+
+	$data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
+	if (isset($_POST['submit'])) {
+		$nom = $_POST['nom'];
+		$description = $_POST['description'];
+		$lien = $_POST['lien'];
+		$nom_Image = !empty($_FILES['image']['name']) ?? null;
+
+		if (!empty($nom_Image) && !empty($nom)  && !empty($lien)  && !empty($description)) {
+			$sql = "INSERT INTO `image` (`Nom_Image`) VALUES (:image)";
+			$sql = $pdo->prepare($sql);
+			$sql->bindParam('image', $nom_Image);
+			$sql->execute();
+			$last_id = $pdo->lastInsertId();
+			try {
+				move_uploaded_file($_FILES['image']['tmp_name'], 'images/partenaires/' . $nom_Image);
+				$query = "UPDATE partenaire SET Nom_Partenaire =:nom, Description_Partenaire =:description, Lien_Partenaire =:lien, Id_Image =:image WHERE Id_Partenaire =:id";
+				$stmt = $pdo->prepare($query);
+				$stmt->bindParam(':nom', $nom);
+				$stmt->bindParam(':description', $description);
+				$stmt->bindParam(':lien', $nom);
+				$stmt->bindParam(':image', $last_id);
+				$stmt->bindParam(':id', $id);
+				$query_execute = $stmt->execute();
+				header("Location: partenaire-back.php");
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+			}
+		} else { ?>
+			<script>
+				alert("Champs vide")
+			</script>
+			<?php }
+	}
+	if (isset($_POST['delete'])) {
+		$id = $_GET['id'];
+		//if id exist
+		if (isset($id)) {
+			//delete data
+			$sql = "SELECT * FROM `partenaire` WHERE `Id_Partenaire` = :id";
+			$part = $pdo->prepare($sql);
+			$part->execute([':id' => $id]);
+			$partenaire = $part->fetch(PDO::FETCH_OBJ);
+			if ($partenaire) {
+				try {
+					$sql = "DELETE FROM `partenaire` WHERE `Id_Partenaire` = :id";
+					$statement = $pdo->prepare($sql);
+					$statement->bindParam('id', $id);
+					$statement->execute();
+					header("Location: partenaire-back.php");
+				} catch (Exception $e) {
+					echo $e;
+				}
+			} else {
+			?>
+				<script>
+					alert("Partenaire introuvable")
+				</script>
+<?php
+			}
+		}
+	}
+}
 ?>
 
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Modifier / Supprimer un partenaire</title>
-		<link rel="icon" href="images/Logo_parNodevo.png">
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-		<link href="update-delete.css" rel="stylesheet">
-		<link href="header-back.css" rel="stylesheet">
-		<link href="footer-back.css" rel="stylesheet">
-		<script src="script.js" defer></script>
-	</head>
-	<body>
 
-		<?php include ('header-back.php');?>
-		<main>
-			<div class="contenant-tout">
-				<h1><a href="partenaire-back.php">Retourner à la liste des partenaires</a></h1>
+<head>
+	<meta charset="UTF-8">
+	<title>Modifier / Supprimer un partenaire</title>
+	<link rel="icon" href="images/Logo_parNodevo.png">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+	<link href="update-delete.css" rel="stylesheet">
+	<link href="header-back.css" rel="stylesheet">
+	<link href="footer-back.css" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="script.js" defer></script>
+</head>
 
-				<form class="modif" action="#">
-					<label for="">Nom du partenaire :</label>
-					<input type="text" id="Nom_Partenaire" name="Nom_Partenaire" value="Nom du partenaire"/>
-					<label for="">Description du partenaire :</label>
-					<input type="text" id="Description_Partenaire" name="Description_Partenaire" value="Description du partenaire">
-					<label for="">Image :</label>
-					<input type="file" id="Image" class="image" name="Image" value="Image">
-					<label for="">Lien du partenaire :</label>
-					<input type="text" id="Lien_Partenaire" name="Lien_Partenaire" value="Lien du partenaire">
+<body>
 
-					<div class="button">
-						<button class="button-update" type="submit">Mettre à jour</button>
-						<button class="button-delete" type="submit">Supprimer</button>
-					</div>
-				</form>
-			</div>
-		</main>
-		<?php include('footer-back.php'); ?>
+	<?php include('header-back.php'); ?>
+	<main>
+		<div class="contenant-tout">
+			<h1><a href="partenaire-back.php">Retourner à la liste des partenaires</a></h1>
 
-	</body>
+			<form method="POST" class="modif" action="#" enctype="multipart/form-data">
+				<input type="hidden" value="<?= $_GET['id'] ?? null ?>" name="id">
+
+				<div class="ligne">
+					<label for="">Nom</label> <br>
+					<input type="text" id="" value="<?= $data['Nom_Partenaire']; ?>" name="nom">
+				</div>
+				<div class="ligne">
+					<label for="exampleFormControlTextarea1">Description</label> <br>
+					<input id="exampleFormControlTextarea1" value="<?= $data['Description_Partenaire']; ?>" name="description" type="text"></input>
+				</div>
+				<div class="ligne">
+					<label for="">Lien</label> <br>
+					<input type="url" value="<?= $data['Lien_Partenaire']; ?>" id="" placeholder="https://" name="lien">
+				</div>
+
+				<div class="ligne">
+					<label for="">Image</label> <br>
+					<input type="file" value="<?php echo $nom_Image['Nom_Image']; ?>" id="" name="image">
+				</div>
+				<div class="button">
+					<button name="submit" class="button-update" type="submit">Mettre à jour</button>
+
+				</div>
+			</form>
+			<form method="POST" class="modif" action="#">
+				<div class="button">
+					<button name="delete" class="button-delete" type="submit">Supprimer</button>
+				</div>
+			</form>
+		</div>
+	</main>
+	<?php include('footer-back.php'); ?>
+
+</body>
+
 </html>

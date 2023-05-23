@@ -5,8 +5,6 @@
 }
 
 body{
-    min-height: 100vh;
-    max-width: 100%;
     margin: 0;
     padding: 0;
     background: #F5F5F5;
@@ -17,11 +15,6 @@ body{
 .all{
     display: flex;
 }
-
-main{
-    min-height: 80vh;
-}
-
 
 .modal {
     display: none;
@@ -131,7 +124,6 @@ main{
 
 .slider2{
     position: relative;
-    top: 20px;
     width: 100%;
     display: flex;
     gap: 6%;
@@ -171,6 +163,7 @@ main{
   }
 
 .contenant-image-slider2 img{
+    padding: 5px;
     animation-delay: 0.1s;
     object-fit: contain;
     aspect-ratio: 1/1;
@@ -203,8 +196,12 @@ main{
     }
   }
   
-.cont-btn2{
-    display: flex;
+.cont-btn{
+    display: none !important;
+}
+
+.cont-btn{
+    display: none;
     height: 30px;
     position: relative;
     top: 20px;
@@ -253,12 +250,16 @@ main{
     .contenant-slider2.contenant-slider2{
         height: 240px;
         width: 100%;
-        margin-top: 15px;
+        margin-top: 0px;
         background-color: white;
     }
     .modal-content {
         width: 80%;
         margin: 7% auto;
+    }
+    .body-modal {
+        overflow: auto;
+        margin: -8px 0 15px 0;
     }
 }
 

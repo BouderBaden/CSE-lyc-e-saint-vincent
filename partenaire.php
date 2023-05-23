@@ -19,6 +19,7 @@ $partenaires = $statement->fetchAll();
     <link href="header.css" rel="stylesheet">
     <link href="banderole.css" rel="stylesheet">
     <link href="footer.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>

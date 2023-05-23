@@ -1,5 +1,11 @@
 <?php
+require_once 'db.php';
+$sql = "SELECT * FROM `offre` INNER JOIN `partenaire` ON  `partenaire`.Id_Partenaire = `offre`.Id_Partenaire";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$offres = $statement->fetchAll();
 $page = 'bill';
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -13,6 +19,7 @@ $page = 'bill';
     <link href="header.css" rel="stylesheet">
     <link href="banderole.css" rel="stylesheet">
     <link href="footer.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -20,524 +27,75 @@ $page = 'bill';
     <main>
         <div class="all">
             <?php include('banderole.php'); ?>
-
-
             <section class="offres">
                 <div class="contenant-offres">
                     <h5>Les offres de la billetterie</h5>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo vel nostrum voluptate, officia est nisi quo magni consectetur non quos sunt tenetur tempora commodi maxime repudiandae veritatis voluptates eos deleniti!</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
+                    <?php
+                    foreach ($offres as $offre) {
+                        $query = "SELECT * FROM `offre_image` INNER JOIN `image` ON  `offre_image`.Id_Image = `image`.Id_Image  WHERE `offre_image`.Id_Offre = ?";
+                        $get_all_image = $pdo->prepare($query);
+                        $get_all_image->execute([$offre['Id_Offre']]);
+                        $images = $get_all_image->fetchAll();
+                    ?>
+                        <div class="cases-offres">
+                            <div class="ligne">
+                                <div class="rectangle-offre">
+                                    <p>OFFRE</p>
                                 </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="teste.jpg" class="slide-image leonidas1" alt="">
-                                            <img src="franprix.jpg" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
+                                <p class="date">Publié le <?= $offre['Date_Debut_Offre'] ?></p>
+                            </div>
+                            <div class="texte-offre">
+                                <p><?= $offre['Description_Offre'] ?></p>
+                            </div>
+                            <div class="savoir-plus"><a onclick="openModalOffre(<?= $offre['Id_Offre'] ?>)" href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
+                            <div id="myModalOffre-<?= $offre['Id_Offre'] ?>" class="modal">
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <span onclick="closeModalOffre(<?= $offre['Id_Offre'] ?>)" class="close">&times;</span>
+                                    <div class="header-modal">
+                                        <h1><?= $offre['Nom_Offre'] ?></h1>
+                                        <p>Publiée le <?= $offre['Date_Debut_Offre']; ?></p>
+                                    </div>
+                                    <div class="contenant-slider2">
+                                        <div class="slider2">
+                                            <div class="fleche-gauche2"><img src="images/fleche.png"></div>
+                                            <div class="contenant-image-slider2">
+                                                <?php foreach ($images as $img) { ?>
+                                                    <img src="images/offres/<?= $img['Nom_Image']; ?>" class="slide-image leonidas1" alt="">
+                                                <?php
+                                                } ?>
+
+                                            </div>
+                                            <div class="fleche-droite2"><img src="images/fleche.png"></div>
                                         </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
+
+                                        <div class="cont-btn">
+                                            <div class="btn-nav2" data-index="1"></div>
+                                            <div class="btn-nav2" data-index="2"></div>
+                                            <div class="btn-nav2" data-index="3"></div>
+                                        </div>
+                                    </div>
+                                    <div class="body-modal">
+                                        <p><?= $offre['Description_Offre'] ?></p>
+                                    </div>
+                                    <div class="footer-modal">
+                                        <a class="lien-offre" href="<?= $offre['Lien_Partenaire'] ?>">Lien vers l'offre</a>
                                     </div>
 
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
                                 </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
                             </div>
                         </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
+                    <?php }
+                    ?>
 
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
-                        </div>
-                        <div class="savoir-plus"><a href="#" id="myBtn">Voir l'offre<img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                        <div id="myModal" class="modal">
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="header-modal">
-                                    <h1>Titre de l'offre</h1>
-                                    <p>Publiée le date</p>
-                                </div>
-                                <div class="contenant-slider2">
-                                    <div class="slider2">
-                                        <div class="fleche-gauche2"><img src="images/fleche.png"></div>
-                                        <div class="contenant-image-slider2">
-                                            <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                                            <img src="images/partenaires/leonidas2.png" class="slide-image leonidas2" alt="">
-                                            <img src="images/partenaires/leonidas1.png" class="slide-image leonidas3" alt="">
-                                        </div>
-                                        <div class="fleche-droite2"><img src="images/fleche.png"></div>
-                                    </div>
-
-                                    <div class="cont-btn">
-                                        <div class="btn-nav2" data-index="1"></div>
-                                        <div class="btn-nav2" data-index="2"></div>
-                                        <div class="btn-nav2" data-index="3"></div>
-                                    </div>
-                                </div>
-                                <div class="body-modal">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim ut officia repellendus ratione voluptas odio praesentium dicta sapiente quisquam tempore qui eos ab aspernatur minima exercitationem necessitatibus atque, nemo magnam.</p>
-                                </div>
-                                <div class="footer-modal">
-                                    <a class="lien-offre" href="#">Lien vers l'offre</a>
-                                </div>
-                                <script src="modale.js" defer></script>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
         </div>
     </main>
     <?php include("footer.php"); ?>
-    <script src="script.js" defer></script>
     <script src="modale.js" defer></script>
+    <script src="script.js" defer></script>
+
 
 </body>
 

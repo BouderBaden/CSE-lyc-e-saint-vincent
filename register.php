@@ -2,10 +2,13 @@
 $page = 'register';
 include "db.php";
 //register
-if (isset($_POST['email']) && isset($_POST['password'])) {
+if (isset($_POST['email']) && isset($_POST['password'])&& isset($_POST['prenom'])&& isset($_POST['nom'])&& isset($_POST['droit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $prenom = $_POST['prenom'];
+    $nom = $_POST['nom'];
     //crypt password
+    $droit = $_POST['droit'];
     $password = password_hash($password, PASSWORD_BCRYPT);
     //check if email exist
     $sql = "SELECT * FROM `utilisateur` WHERE `Email_Utilisateur` = :email";
@@ -21,10 +24,13 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 <?php
     } else {
         //insert data
-        $sql = "INSERT INTO `utilisateur` (`Email_Utilisateur`, `Password_Utilisateur`) VALUES (:email, :password)";
+        $sql = "INSERT INTO `utilisateur` (`Nom_Utilisateur`, `Prenom_Utilisateur`, `Email_Utilisateur`, `Password_Utilisateur`, `Id_Droit`) VALUES (:nom, :prenom, :email, :password, :droit)";
         $statement = $pdo->prepare($sql);
+        $statement->bindParam('nom', $nom);
+        $statement->bindParam('prenom', $prenom);
         $statement->bindParam('email', $email);
         $statement->bindParam('password', $password);
+        $statement->bindParam('droit', $droit);
         $statement->execute();
         header("Location: backoffice.php");
     }
@@ -45,6 +51,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     <link href="register.css" rel="stylesheet">
     <link href="header.css" rel="stylesheet">
     <link href="footer.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="script.js" defer></script>
 </head>
 
@@ -54,19 +61,18 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         <div class="inscription">
             <h1>Inscription</h1>
             <form action="register.php" method="post">
-                <label for="name">Nom</label>
-                <input type="text" name="name" placeholder="Nom de l'utilisateur" required>
-                <label for="first-name">Prénom</label>
-                <input for="first-name" name="first-name" placeholder="Prénom de l'utilisateur" required>
+                <label for="nom">Nom</label>
+                <input type="text" name="nom" placeholder="Nom de l'utilisateur" required>
+                <label for="prenom">Prénom</label>
+                <input for="first-name" name="prenom" placeholder="Prénom de l'utilisateur" required>
 
                 <label for="email">Email</label>
                 <input type="email" name="email" placeholder="Email" required>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" placeholder="Mot de passe" required>
-                <select name="choix" id="choix" required>
-                    <option value="" hidden>Choisissez le rôle de l'utilisateur</option>
-                    <option value="offre">Super-Administrateur</option>
-                    <option value="partenaire">Administrateur</option>
+                <select name="droit" id="choix" required>
+                    <option value="2">Super-Administrateur</option>
+                    <option selected value="1">Administrateur</option>
                 </select>
                 <div class="placement">
                     <button type="submit" value="s'inscrire">S'inscrire</button>

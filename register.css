@@ -5,17 +5,11 @@
 }
 
 body{
-    min-height: 100vh;
-    max-width: 100%;
     margin: 0;
     padding: 0;
     background: #F5F5F5;
     overflow-x: hidden;
     font-family: 'Montserrat', sans-serif;
-}
-
-main{
-    min-height: 55vh;
 }
 
 .inscription{

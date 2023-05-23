@@ -5,8 +5,6 @@
 }
 
 body{
-    min-height: 100vh;
-    max-width: 100%;
     margin: 0;
     padding: 0;
     background: #F5F5F5;
@@ -88,6 +86,7 @@ tbody{
 }
 
 .centrer img{
+    padding: 10px;
     object-fit: contain;
     aspect-ratio: 1/1;
     height: 195px;

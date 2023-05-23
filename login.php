@@ -61,6 +61,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     <link href="login.css" rel="stylesheet">
     <link href="header.css" rel="stylesheet">
     <link href="footer.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="script.js" defer></script>
 </head>
 

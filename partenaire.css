@@ -5,8 +5,6 @@
 }
 
 body{
-    min-height: 100vh;
-    max-width: 100%;
     margin: 0;
     padding: 0;
     background: #F5F5F5;
@@ -14,9 +12,6 @@ body{
     font-family: 'Montserrat', sans-serif;
 }
 
-main{
-    min-height: 80vh;
-}
 
 .all{
     display: flex;
@@ -348,7 +343,7 @@ main{
 
 @media screen and (max-width: 550px) {
     .contenant-les-partenaires{
-        width: 80%;
+        width: 90%;
         margin: auto;
         padding: 0 20px;
         grid-row-gap: 40px;

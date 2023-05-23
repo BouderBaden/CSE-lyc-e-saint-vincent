@@ -32,7 +32,6 @@
                     <li class="liste-footer"><a href="contact.php" class="lien-footer">> Contact</a></li>
                 <?php }
                 ?>
-                
             </ul>
         </div>
     </div>
