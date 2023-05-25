@@ -67,7 +67,7 @@ input{
 }
 
 textarea{
-    height: 100px;
+    height: 140px;
     font-size: 16px;
     border: 2px solid #1B3168;
     margin: 10px 0 20px 0;
@@ -112,6 +112,11 @@ select{
     border-radius: 5px;
     outline-color: #B6A886;
     font-family: 'Montserrat', sans-serif;
+}
+
+#image{
+    border: none;
+    padding: 0;
 }
 
 

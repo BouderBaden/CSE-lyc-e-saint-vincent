@@ -6,7 +6,7 @@ const dots2 = document.querySelectorAll('.btn-nav2');
 let slideIndex2 = 0;
 
 function showSlide2(n) {
-  // Affiche le slide correspondant à l'index donné
+  // Affiche le ctncorrespondant à l'index donné
   slides2.forEach(slide => slide.style.display = 'none');
   dots2.forEach(dot2 => dot2.classList.remove('active'));
   slides2[n].style.display = 'block';

@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
 
         if (count($_FILES['image']['tmp_name']) > 0) {
             foreach ($_FILES['image']['tmp_name'] as $key => $img) {
-                if ($key === 4){
+                if ($key === 4) {
                     break;
                 }
                 $nom_image = $_FILES['image']['name'][$key];
@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
                 $sql->bindParam('offre', $id_offre);
                 $sql->execute();
             }
-             header("Location: billetterie-back.php");
+            header("Location: billetterie-back.php");
         }
     }
 }
@@ -76,31 +76,31 @@ if (isset($_POST['submit'])) {
         <div class="contenant-creation">
             <h1>Ajouter une offre</h1>
             <form action="#" method="post" enctype="multipart/form-data">
-                        <label for="exampleFormControlInput100" class="form-label">Partenaire</label>
-                        <br>
-                        <select type="text" style="color: #000;" class="nom" id="exampleFormControlInput100 " name="partenaire">
-                            <?php
-                            foreach ($partenaires as $part) {
-                                echo '<option value="' . $part['Id_Partenaire'] . '">' . $part['Nom_Partenaire'] . '</option>';
-                            }
-                            ?>
-                        </select>
-                    
-                    <label for="exampleFormControlInput1" class="form-label">Nom de l'offre</label>
-                    <br>
-                    <input type="text" class="nom" id="exampleFormControlInput1 " name="nom">
-                    <label for="exampleFormControlTextarea1" class="form-label">Description de l'offre</label> <br>
-                    <textarea class="description" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
-                    <label for="exampleFormControlTextarea1" class="form-label">Date de début de l'offre</label> <br>
-                    <input type="date" name="date">
-                    <label for="exampleFormControlTextarea1" class="form-label">Date de fin de l'offre</label> <br>
-                    <input type="date" name="date2">
-                    <label for="exampleFormControlTextarea1" class="form-label">Place Min. Offre</label> <br>
-                    <input type="number" class="nom" name="nbplace">
-                    <label for="exampleFormControlInput1" class="form-label">Image</label> <br>
-                    <input multiple type="file" class="image" id="exampleFormControlInput1" name="image[]"><br>
-                <button type="submit" class="btn btn-primary me-md-2" name="submit">Ajouter</button>
-                
+                <label for="exampleFormControlInput100" class="form-label">Partenaire</label>
+                <br>
+                <select type="text" style="color: #000;" class="nom" id="exampleFormControlInput100 " name="partenaire">
+                    <?php
+                    foreach ($partenaires as $part) {
+                        echo '<option value="' . $part['Id_Partenaire'] . '">' . $part['Nom_Partenaire'] . '</option>';
+                    }
+                    ?>
+                </select>
+
+                <label for="nom" class="form-label">Nom de l'offre</label>
+                <input type="text" class="nom" id="nom" name="nom" placeholder="Indiquez le nom de l'offre">
+                <label for="description" class="form-label">Description de l'offre</label>
+                <textarea class="description" id="description" rows="3" name="description" placeholder="Décrivez votre offre"></textarea>
+                <label for="datedebut" class="form-label">Date de début de l'offre</label>
+                <input type="date" id="datedebut" name="date">
+                <label for="datefin" class="form-label">Date de fin de l'offre</label>
+                <input type="date" id="datefin" name="date2">
+                <label for="place" class="form-label">Place Min. Offre</label>
+                <input type="number" id="place" class="nom" name="nbplace" placeholder="Indiquez le nombre de place minimale">
+                <label for="image" class="form-label">Image</label>
+                <input multiple type="file" class="image" id="image" name="image[]">
+                <div class="placement">
+                    <button type="submit" class="button" name="submit">Ajouter</button>
+                </div>
             </form>
         </div>
     </main>

@@ -4,7 +4,7 @@ require 'db.php';
 
 
 if (isset($_GET['id']) || isset($_POST['id'])) {
-	$id = $_GET['id'] ?? $_POST['id'];
+	$id = $_GET['id'];
 
 	$query = "SELECT * FROM partenaire WHERE Id_Partenaire = :id LIMIT 1";
 
@@ -59,6 +59,14 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 			$partenaire = $part->fetch(PDO::FETCH_OBJ);
 			if ($partenaire) {
 				try {
+					$sql2 = "DELETE FROM `offre_image` WHERE `Id_Offre` = ?";
+            		$statement = $pdo->prepare($sql2);
+           			$statement->execute([(int)$id]);
+
+					$sql = "DELETE FROM offre WHERE Id_Offre = ?";
+					$statement = $pdo->prepare($sql2);
+					$statement->execute([(int)$id]);
+
 					$sql = "DELETE FROM `partenaire` WHERE `Id_Partenaire` = :id";
 					$statement = $pdo->prepare($sql);
 					$statement->bindParam('id', $id);
@@ -104,29 +112,19 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 			<form method="POST" class="modif" action="#" enctype="multipart/form-data">
 				<input type="hidden" value="<?= $_GET['id'] ?? null ?>" name="id">
 
-				<div class="ligne">
-					<label for="">Nom</label> <br>
-					<input type="text" id="" value="<?= $data['Nom_Partenaire']; ?>" name="nom">
-				</div>
-				<div class="ligne">
-					<label for="exampleFormControlTextarea1">Description</label> <br>
-					<input id="exampleFormControlTextarea1" value="<?= $data['Description_Partenaire']; ?>" name="description" type="text"></input>
-				</div>
-				<div class="ligne">
-					<label for="">Lien</label> <br>
-					<input type="url" value="<?= $data['Lien_Partenaire']; ?>" id="" placeholder="https://" name="lien">
-				</div>
-
-				<div class="ligne">
-					<label for="">Image</label> <br>
-					<input type="file" value="<?php echo $nom_Image['Nom_Image']; ?>" id="" name="image">
-				</div>
+					<label for="nom">Nom</label>
+					<input type="text" id="nom" value="<?= $data['Nom_Partenaire']; ?>" name="nom">
+					<label for="description">Description</label>
+					<textarea id="description" name="description"><?php echo $data['Description_Partenaire']; ?></textarea>
+					<label for="lien">Lien</label>
+					<input type="url" value="<?= $data['Lien_Partenaire']; ?>" id="lien" placeholder="https://" name="lien">
+					<label for="image">Image</label>
+					<input type="file" value="<?php echo $nom_Image['Nom_Image']; ?>" id="image" name="image">
 				<div class="button">
 					<button name="submit" class="button-update" type="submit">Mettre à jour</button>
-
 				</div>
 			</form>
-			<form method="POST" class="modif" action="#">
+			<form method="POST" class="modiff" action="#">
 				<div class="button">
 					<button name="delete" class="button-delete" type="submit">Supprimer</button>
 				</div>

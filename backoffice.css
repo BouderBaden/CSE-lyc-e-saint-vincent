@@ -34,6 +34,8 @@ form{
 }
 
 label{
+    color: #1B3168;
+    font-weight: 600;
     margin: 10px 0 0 0;
     font-size: 20px;
 }

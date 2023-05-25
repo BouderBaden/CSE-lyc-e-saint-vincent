@@ -61,7 +61,7 @@ if (isset($_POST['submit'])) {
 				$sql->bindParam('offre', $id);
 				$sql->execute();
 			}
-			header("Location: billetterie.php");
+			header("Location: billetterie-back.php");
 		}
 	}
 }
@@ -118,9 +118,8 @@ if (isset($_POST['delete'])) {
 		<div class="contenant-tout">
 			<h1><a href="billetterie-back.php">Retourner à la liste des offres</a></h1>
 			<form class="modif" action="#" method="post" enctype="multipart/form-data">
-				<label for="exampleFormControlInput100" class="form-label">Partenaire</label>
-				<br>
-				<select type="text" style="color: #000;" class="nom" id="exampleFormControlInput100 " name="partenaire">
+				<label for="partenaire" class="form-label">Partenaire</label>
+				<select type="text" style="color: #000;" class="nom" id="partenaire" name="partenaire">
 					<?php
 					foreach ($partenaires as $part) {
 					?>
@@ -129,23 +128,22 @@ if (isset($_POST['delete'])) {
 					}
 					?>
 				</select>
-				<label for="exampleFormControlInput1" class="form-label">Nom de l'offre</label>
-				<br>
-				<input type="text" class="nom" id="exampleFormControlInput1 " value="<?= $offres['Nom_Offre'] ?>" name="nom">
-				<label for="exampleFormControlTextarea1" class="form-label">Description de l'offre</label> <br>
-				<textarea class="description" id="exampleFormControlTextarea1" rows="3" name="description"><?= $offres['Description_Offre'] ?></textarea>
-				<label for="exampleFormControlTextarea1" class="form-label">Date de début de l'offre</label> <br>
-				<input type="date" name="date" value="<?= $offres['Date_Debut_Offre'] ?>">
-				<label for="exampleFormControlTextarea1" class="form-label">Date de fin de l'offre</label> <br>
-				<input type="date" name="date2" value="<?= $offres['Date_Fin_Offre'] ?>">
-				<label for="exampleFormControlTextarea1" class="form-label">Place Min. Offre</label> <br>
-				<input type="number" class="nom" name="nbplace" value="<?= $offres['Nombre_Place_Min_Offre'] ?>">
+				<label for="nom" class="form-label">Nom de l'offre</label>
+				<input type="text" class="nom" id="nom" value="<?= $offres['Nom_Offre'] ?>" name="nom">
+				<label for="description" class="form-label">Description de l'offre</label>
+				<textarea class="description" id="description" name="description"><?= $offres['Description_Offre'] ?></textarea>
+				<label for="datedebut" class="form-label">Date de début de l'offre</label>
+				<input type="date" name="date" id="datedebut" value="<?= $offres['Date_Debut_Offre'] ?>">
+				<label for="datefin" class="form-label">Date de fin de l'offre</label>
+				<input type="date" name="date2" id="datefin" value="<?= $offres['Date_Fin_Offre'] ?>">
+				<label for="place" class="form-label">Place Min. Offre</label>
+				<input type="number" class="nom" id="place" name="nbplace" value="<?= $offres['Nombre_Place_Min_Offre'] ?>">
 				<input type="hidden" name="id" value="<?= $id ?>">
-				<label for="exampleFormControlInput1" class="form-label">Image</label> <br>
-				<input multiple type="file" class="image" id="exampleFormControlInput1" name="image[]"><br>
+				<label for="image" class="form-label">Image</label>
+				<input multiple type="file" class="image" id="image" name="image[]">
 				<button type="submit" class="button-update" name="submit">Ajouter</button>
 			</form>
-			<form method="POST" class="modif" action="#">
+			<form method="POST" class="modiff" action="#">
 				<button name="delete" class="button-delete" type="submit">Supprimer</button>
 			</form>
 

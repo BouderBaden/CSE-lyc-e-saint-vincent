@@ -115,6 +115,14 @@ button{
     color: #1B3168;
 }
 
+#capchat{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+
 button:hover{
     color: #1B3168;
     background-color: #fff;

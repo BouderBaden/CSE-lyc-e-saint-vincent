@@ -1,5 +1,15 @@
 <?php
 $page = 'index';
+require_once "db.php";
+$sql = "SELECT * FROM `info_accueil`";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$infos = $statement->fetch();
+
+$sql = "SELECT * FROM `offre` INNER JOIN `partenaire` ON  `partenaire`.Id_Partenaire = `offre`.Id_Partenaire ORDER BY  Id_Offre DESC LIMIT 3";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$offres = $statement->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -27,49 +37,32 @@ $page = 'index';
             <section class="offres">
                 <div class="contenant-offres">
                     <div class="cse">
-                        <h1>CSE Lycée Saint-Vincent</h1>
-                        <p>Nous vous souhaitons la bienvenue sur le site du comité social et économique du lycée Saint-Vincent à Senlis.<br>Découvrez <span>l'équipe</span> et le <span>rôle</span> et missions de vote CSE.</p>
+                        <h1><?= $infos['Titre_Info_Accueil'] ?></h1>
+                        <p><?= $infos['Texte_Info_Accueil'] ?></p>
                     </div>
                     <h5>Dernières offres de la billetterie</h5>
+                    <?php
+                    foreach ($offres as $offre) {
+                        $query = "SELECT * FROM `offre_image` INNER JOIN `image` ON  `offre_image`.Id_Image = `image`.Id_Image  WHERE `offre_image`.Id_Offre = ?";
+                        $get_all_image = $pdo->prepare($query);
+                        $get_all_image->execute([$offre['Id_Offre']]);
+                        $images = $get_all_image->fetchAll();
+                    ?>
                     <div class="cases-offres">
                         <div class="ligne">
                             <div class="rectangle-offre">
                                 <p>OFFRE</p>
                             </div>
-                            <p class="date">Publié le 11 décembre 2022</p>
+                            <p class="date">Publié le <?= $offre['Date_Debut_Offre'] ?></p>
                         </div>
                         <div class="texte-offre">
-                            <p>Profitez de -20% sur une sélection de parfum, en partenariat avec l’enseigne Nocibé de Senlis.<br>Merci de vous rendre au bureau du CSE pour pouvor passer commande</p>
+                            <p><?= $offre['Description_Offre'] ?></p>
                         </div>
                         <div class="savoir-plus"><a href="billetterie.php">En savoir plus <img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
                     </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 09 décembre 2022</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Achetez dès à présent votre sapin de noël en profitant du partenariat entre le lycée Saint-Vincent
-                                et l’association des Scouts De L’oise.<br>Prix commun à tous : 30€ le petit sapin, 40€ le grand.</p>
-                        </div>
-                        <div class="savoir-plus"><a href="billetterie.php">En savoir plus <img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                    </div>
-                    <div class="cases-offres">
-                        <div class="ligne">
-                            <div class="rectangle-offre">
-                                <p>OFFRE</p>
-                            </div>
-                            <p class="date">Publié le 10 novembre 2022 - Jusqu’au 30/01/2023</p>
-                        </div>
-                        <div class="texte-offre">
-                            <p>Offre négociée au près de Léonidas, profitez de - 10% toute l’année sur l’ensemble des chocolats dans la boutique de Senlis.<br>
-                                Famille nombreuse (5 enfants et plus) : -5% supplémentaire</p>
-                        </div>
-                        <div class="savoir-plus"><a href="billetterie.php">En savoir plus <img src="images/fleche.png" alt="icone fleche vers la droite"></a></div>
-                    </div>
-
+                    <?php
+                    }
+                    ?>
                     <div class="decouvrir"><a href="billetterie.php">Découvrir toutes nos offres 〉</a></div>
                 </div>
             </section>

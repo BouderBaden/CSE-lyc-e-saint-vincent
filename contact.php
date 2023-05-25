@@ -46,6 +46,7 @@ if (isset($_POST['submit'])) {
     }
 }
 
+
 ?>
 
 <?php
@@ -70,6 +71,7 @@ if (isset($_GET['success']) && $_GET['success'] === 'true') {
     <link href="banderole.css" rel="stylesheet">
     <link href="footer.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" defer></script>
 </head>
 
 <body>
@@ -124,6 +126,8 @@ if (isset($_GET['success']) && $_GET['success'] === 'true') {
                             </select>
 
                             <textarea name="message" placeholder="Entrez votre message." required></textarea>
+
+                            <div class="cf-turnstile" id="capchat" data-sitekey="0x4AAAAAAAFLZz5nvcNXWaQP" data-callback="javascriptCallback"></div>
 
                             <button name="submit" type="submit">Envoyer</button>
                         </form>

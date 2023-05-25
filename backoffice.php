@@ -52,13 +52,13 @@ if (isset($_POST['submit'])) {
                 <input type="email" id="email" name="email" value="<?= $infos['Email_Info_Accueil'] ?>" required>
 
                 <label for="adresse">Adresse postale :</label>
-                <input type="text" name="address" value="<?= $infos['Emplacement_Bureau_Info_Accueil'] ?>" required></input>
+                <input type="text" id="adresse" name="address" value="<?= $infos['Emplacement_Bureau_Info_Accueil'] ?>" required></input>
 
                 <label for="title">Titre du message d'accueil :</label>
-                <input type="text" name="title" value="<?= $infos['Titre_Info_Accueil'] ?>" required></input>
+                <input type="text" id="title" name="title" value="<?= $infos['Titre_Info_Accueil'] ?>" required></input>
 
                 <label for="message">Contenu du message d'accueil :</label>
-                <textarea name="message">value="<?= $infos['Texte_Info_Accueil'] ?>"</textarea>
+                <textarea id="message" name="message"><?= $infos['Texte_Info_Accueil'] ?></textarea>
 
 
                 <div class="placement">

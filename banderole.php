@@ -1,3 +1,20 @@
+<?php
+require_once "db.php";
+$sql = "SELECT * FROM `info_accueil`";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$infos = $statement->fetch();
+
+
+
+$sql = "SELECT * FROM `partenaire` INNER JOIN `image` ON `partenaire`.`Id_Image` = `image`.`Id_Image` ORDER BY RAND() LIMIT 3";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$partenaires = $statement->fetchAll();
+
+?>
+
+
 <img src="images/fleche-banderole.png" class="fleche-banderole" alt="">
 <section class="banderole">
     <div class="contenant-banderole">
@@ -16,9 +33,10 @@
         <div class="infos">
             <h2>Informations de contact</h2>
             <ul class="contenant-liste-infos">
-                <li class="liste-infos"><img src="images/fleche.png" class="fleche-acces" alt="">Par téléphone : <a class="num" href="tel:+33303030303">+33303030303</a></li>
-                <li class="liste-infos"><img src="images/fleche.png" class="fleche-acces" alt="">Par email : <a class="num" href="mailto:cse@lyceestvincent.fr">cse@lyceestvincent.fr</a></li>
-                <li class="liste-infos"><img src="images/fleche.png" class="fleche-acces" alt="" style="margin-right: 6px;">Au lycée : <a class="num" target="_blank" href="https://www.google.fr/maps/place/Lyc%C3%A9e+Priv%C3%A9+Saint+Vincent+de+Senlis/@49.2033091,2.5888014,21z/data=!4m10!1m2!2m1!1sBureau+du+CSE+(1er+%C3%A9tage+b%C3%A2timent+Saint-Vincent)+senlis!3m6!1s0x47e630cfeb73f31d:0x48c819ca44bf7503!8m2!3d49.2032959!4d2.5887978!15sCjlCdXJlYXUgZHUgQ1NFICgxZXIgw6l0YWdlIGLDonRpbWVudCBTYWludC1WaW5jZW50KSBzZW5saXOSAQtoaWdoX3NjaG9vbOABAA!16s%2Fg%2F1thcrn4z">Bureau du CSE<br> (1er étage bâtiment Saint-Vincent)</a></li>
+
+                <li class="liste-infos"><img src="images/fleche.png" class="fleche-acces" alt="">Par téléphone : <a class="num" href="tel:+33<?= $infos['Num_Tel_Info_Accueil'] ?>">+33<?= $infos['Num_Tel_Info_Accueil'] ?></a></li>
+                <li class="liste-infos"><img src="images/fleche.png" class="fleche-acces" alt="">Par email : <a class="num" href="mailto:<?= $infos['Email_Info_Accueil'] ?>"><?= $infos['Email_Info_Accueil'] ?></a></li>
+                <li class="liste-infos"><img src="images/fleche.png" class="fleche-acces" alt="" style="margin-right: 6px;">Au lycée : <a class="num" target="_blank" href="https://www.google.fr/maps/place/Lyc%C3%A9e+Priv%C3%A9+Saint+Vincent+de+Senlis/@49.2033091,2.5888014,21z/data=!4m10!1m2!2m1!1sBureau+du+CSE+(1er+%C3%A9tage+b%C3%A2timent+Saint-Vincent)+senlis!3m6!1s0x47e630cfeb73f31d:0x48c819ca44bf7503!8m2!3d49.2032959!4d2.5887978!15sCjlCdXJlYXUgZHUgQ1NFICgxZXIgw6l0YWdlIGLDonRpbWVudCBTYWludC1WaW5jZW50KSBzZW5saXOSAQtoaWdoX3NjaG9vbOABAA!16s%2Fg%2F1thcrn4z"><?= $infos['Emplacement_Bureau_Info_Accueil'] ?></a></li>
             </ul>
         </div>
         <div class="partenaires">
@@ -28,9 +46,13 @@
                 <div class="slider">
                     <div class="fleche-gauche"><img src="images/fleche.png"></div>
                     <div class="contenant-image-slider">
-                        <img src="images/partenaires/leonidas.png" class="slide-image leonidas1" alt="">
-                        <img src="images/partenaires/teste.jpg" class="slide-image leonidas2" alt="">
-                        <img src="images/partenaires/franprix.jpg" class="slide-image leonidas3" alt="">
+                        <?php
+                        foreach($partenaires as $partenaire){
+                        ?>
+                        <img src="images/partenaires/<?= $partenaire['Nom_Image'] ?>" class="slide-image" alt="">
+                        <?php
+                        }
+                        ?>
                     </div>
                     <div class="fleche-droite"><img src="images/fleche.png"></div>
                 </div>

@@ -69,7 +69,7 @@ $page = 'bill';
                                             <div class="fleche-droite2"><img src="images/fleche.png"></div>
                                         </div>
 
-                                        <div class="cont-btn">
+                                        <div class="cont-btn2">
                                             <div class="btn-nav2" data-index="1"></div>
                                             <div class="btn-nav2" data-index="2"></div>
                                             <div class="btn-nav2" data-index="3"></div>

@@ -64,16 +64,17 @@ if (isset($_POST['submit'])) {
         <div class="contenant-creation">
             <h1>Ajouter un partenaire</h1>
             <form action="create.php" method="post" enctype="multipart/form-data">
-                <label for="exampleFormControlInput1">Nom</label> <br>
-                <input type="text" class="nom" id="exampleFormControlInput1 " name="nom">
-                <label for="exampleFormControlTextarea1">Description</label> <br>
-                <textarea id="exampleFormControlTextarea1" name="description"></textarea>
-                <label for="exampleFormControlInput1">Lien</label> <br>
-                <input type="url" id="exampleFormControlInput1" placeholder="https://" name="lien">
-                <label for="exampleFormControlInput1">Image</label> <br>
-                <input type="file" id="exampleFormControlInput1" name="image">
-                <a href="#"><button type="submit" name="submit">Ajouter</button></a>
-
+                <label for="nom">Nom</label>
+                <input type="text" class="nom" id="nom" name="nom" placeholder="Indiquez le nom du partenaire">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Décrivez le partenaire"></textarea>
+                <label for="lien">Lien</label>
+                <input type="url" id="lien" placeholder="https://liendusite.fr" name="lien">
+                <label for="image">Image</label>
+                <input type="file" id="image" name="image">
+                <div class="placement">
+                    <button type="submit" name="submit" class="button">Ajouter</button>
+                </div>
             </form>
         </div>
     </main>

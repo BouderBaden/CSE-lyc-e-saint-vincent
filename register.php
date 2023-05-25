@@ -49,27 +49,27 @@ if (isset($_POST['email']) && isset($_POST['password'])&& isset($_POST['prenom']
     <link rel="icon" href="images/Logo_parNodevo.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link href="register.css" rel="stylesheet">
-    <link href="header.css" rel="stylesheet">
-    <link href="footer.css" rel="stylesheet">
+    <link href="header-back.css" rel="stylesheet">
+    <link href="footer-back.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="script.js" defer></script>
 </head>
 
 <body>
-    <?php include("header.php"); ?>
+    <?php include("header-back.php"); ?>
     <main>
         <div class="inscription">
             <h1>Inscription</h1>
             <form action="register.php" method="post">
                 <label for="nom">Nom</label>
-                <input type="text" name="nom" placeholder="Nom de l'utilisateur" required>
+                <input type="text" name="nom" id="nom" placeholder="Nom de l'utilisateur" required>
                 <label for="prenom">Prénom</label>
-                <input for="first-name" name="prenom" placeholder="Prénom de l'utilisateur" required>
-
+                <input for="first-name" name="prenom" id="prenom" placeholder="Prénom de l'utilisateur" required>
                 <label for="email">Email</label>
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="email" name="email" id="email" placeholder="Email de l'utilisateur" required>
                 <label for="password">Mot de passe</label>
-                <input type="password" name="password" placeholder="Mot de passe" required>
+                <input type="password" name="password" id="password" placeholder="Mot de passe de l'utilisateur" required>
+                <label for="choix">Sélectionnez un rôle pour l'utilisateur</label>
                 <select name="droit" id="choix" required>
                     <option value="2">Super-Administrateur</option>
                     <option selected value="1">Administrateur</option>
@@ -80,7 +80,7 @@ if (isset($_POST['email']) && isset($_POST['password'])&& isset($_POST['prenom']
             </form>
         </div>
     </main>
-    <?php include("footer.php"); ?>
+    <?php include("footer-back.php"); ?>
 </body>
 
 </html>
